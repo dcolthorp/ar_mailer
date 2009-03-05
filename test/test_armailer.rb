@@ -16,12 +16,17 @@ class Mailer < ActionMailer::ARMailer
   end
 
   def mail_with_return_path
+    require 'ostruct'
+    
     @mail = Object.new
     def @mail.encoded() 'email' end
     def @mail.from() ['nobody@example.com'] end
     def @mail.destinations() %w[user1@example.com user2@example.com] end
     def @mail.[](header) 
-      {"return-path" => "return@path.com"}[header]
+      return_path = Object.new
+      def return_path.to_s() "return@path.com" end
+        
+      {"return-path" => return_path}[header]
     end
   end
 

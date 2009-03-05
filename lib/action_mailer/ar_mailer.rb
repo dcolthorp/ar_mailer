@@ -91,7 +91,7 @@ class ActionMailer::ARMailer < ActionMailer::Base
     sender = mail["return-path"] || mail.from.first
     mail.destinations.each do |destination|
       @@email_class.create :mail => mail.encoded, :to => destination,
-                           :from => sender
+                           :from => sender.to_s
     end
   end
 
